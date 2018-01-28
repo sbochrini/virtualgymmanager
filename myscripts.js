@@ -98,7 +98,7 @@
                                     <label for="plan_name">Workout Name</label>
                                     <input type="text" class="form-control" id="plan_name" name="plan_name" required>
                                     <div id="invalid_planname" class="invalid-feedback">
-                                        Workout name is required.
+
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -109,15 +109,15 @@
 
                                     </select>
                                     <div id="invalid_plandifficulty" class="invalid-feedback">
-                                        Workout name is required.
+
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="plan_description">Description</label>
-                                <textarea id="plan_description" type="text" class="form-control" name="plan_description" required></textarea>
+                                <textarea id="plan_description" type="text" class="form-control" name="plan_description"></textarea>
                                 <div class="invalid-feedback">
-                                    Description is required.
+
                                 </div>
                             </div>
                             <div class="row">
@@ -165,10 +165,10 @@
                                                           <div class="form-group row mb-3">
                                                               <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                               <div class="col-md-9">
-                                                                  <input type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                  <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
                                                               </div>
-                                                              <div class="invalid-feedback">
-                                                                  Difficulty is required.
+                                                              <div class="invalid-feedback" id="invalid_exerciseduration">
+
                                                               </div>
                                                           </div>
                                                           <hr class="mb-4">
@@ -277,10 +277,10 @@
                                                       <div class="form-group row mb-3">
                                                           <label class="col-md-3 col-form-label form-control-sm" for="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]">Duration</label>
                                                           <div class="col-md-9">
-                                                              <input type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
+                                                              <input id="plan_difficulty" type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
                                                           </div>
-                                                          <div class="invalid-feedback">
-                                                              Difficulty is required.
+                                                          <div class="invalid-feedback" id="invalid_plandifficulty">
+
                                                           </div>
                                                       </div>
                                                       <hr class="mb-4">`;
@@ -304,10 +304,10 @@
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                                   <div class="col-md-9">
-                                                                      <input type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
                                                                   </div>
-                                                                  <div class="invalid-feedback">
-                                                                      Difficulty is required.
+                                                                  <div class="invalid-feedback" id="invalid_exerciseduration">
+
                                                                   </div>
                                                               </div>
                                                               <hr class="mb-4">`;
@@ -352,10 +352,10 @@
                                                                                   <div class="form-group row mb-3">
                                                                                       <label class="col-md-3 col-form-label form-control-sm" for="days[1][exercises][1][exercise_duration]">Duration</label>
                                                                                       <div class="col-md-9">
-                                                                                          <input type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]" value="" >
+                                                                                          <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]" value="" >
                                                                                       </div>
-                                                                                      <div class="invalid-feedback">
-                                                                                          Difficulty is required.
+                                                                                      <div class="invalid-feedback" id="invalid_exerciseduration">
+
                                                                                       </div>
                                                                                   </div>
                                                                                   <hr class="mb-4">
@@ -405,10 +405,10 @@
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                                   <div class="col-md-9">
-                                                                      <input type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
                                                                   </div>
-                                                                  <div class="invalid-feedback">
-                                                                      Difficulty is required.
+                                                                  <div class="invalid-feedback" id="invalid_exerciseduration">
+
                                                                   </div>
                                                               </div>
                                                               <hr class="mb-4">
@@ -428,8 +428,8 @@
                             <div class="col-md-6 mb-3">
                                 <label for="plan_name">Workout Name</label>
                                 <input type="text" class="form-control" id="plan_name" name="plan_name" value="${response.plan.plan_name}" required>
-                                <div class="invalid-feedback">
-                                    Workout name is required.
+                                <div class="invalid-feedback" id="invalid_planname">
+
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">

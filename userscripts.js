@@ -84,16 +84,25 @@
                       <div class="form-group">
                              <label for="Firstame">Firstame</label>
                              <input id="firstname" class="form-control" name="firstname" type="text" required>
+                             <div class="invalid-feedback" id="invalid_firstname">
+
+                             </div>
                           </div>
 
                           <div class="form-group">
-                             <label for="Lastame">Lastame</label>
+                             <label for="Lastame">Lastname</label>
                              <input id="lastname" class="form-control" name="lastname" type="text">
+                             <div class="invalid-feedback" id="invalid_lastname">
+
+                             </div>
                           </div>
 
                           <div class="form-group">
                              <label for="E-mail Address">E-mail Address</label>
                              <input id="email" class="form-control" name="email" type="text" >
+                             <div class="invalid-feedback" id="invalid_email">
+
+                             </div>
                           </div>
 
                           <div class="form-group">
@@ -196,16 +205,25 @@
                     <div class="form-group">
                            <label for="Firstame">Firstame</label>
                            <input id="firstname" class="form-control" name="firstname" type="text" value="${response.user.firstname}" required>
+                           <div class="invalid-feedback" id="invalid_firstname">
+
+                           </div>
                         </div>
 
                         <div class="form-group">
                            <label for="Lastame">Lastame</label>
                            <input id="lastname" class="form-control" name="lastname" type="text" value="${response.user.lastname}">
+                           <div class="invalid-feedback" id="invalid_lastname">
+
+                           </div>
                         </div>
 
                         <div class="form-group">
                            <label for="E-mail Address">E-mail Address</label>
                            <input id="email" class="form-control" name="email" type="text" value="${response.user.email}">
+                           <div class="invalid-feedback" id="invalid_email">
+
+                           </div>
                         </div>
 
                         <div class="form-group">

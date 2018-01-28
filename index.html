@@ -135,9 +135,9 @@
             data: {data: data},
           }).done(function(response){
             if(response.success==true){
-              alert('Workout Plan # '+response.plan.id+' added');
-              var new_user='';
-              new_user= `<li class="list-group-item mb-1">
+              alert('Workout Plan # '+response.plan.plan_name+' added');
+              var new_plan='';
+              new_plan= `<li class="list-group-item mb-1">
                               <div class="row">
                                   <div class="col-md-auto">
                                       <img src="/virtuagymapi/public/gym.png" style="height: 117px; width: 117px;">
@@ -181,20 +181,18 @@
                                   </div>
                               </div>
                           </li>`;
-              $('#plans').prepend(new_user);
+              $('#plans').prepend(new_plan);
             }else{
-                $.each(response.plan_name, function(key, msg){
-                  $("#plan_name").addClass('is_invalid');
-                  $("#invalid_planname").addClass('is_invalid');
-                  $("#invalid_planname").append(msg);
+                $.each(response.msg.plan_name, function(key, plan_name){
+                  $("#plan_name").addClass('is-invalid');
+                  $("#invalid_planname").addClass('is-invalid');
+                  $("#invalid_planname").text(plan_name);
                 });
-                $.each(response.plan_name, function(key, msg){
-                  $("#plan_dificulty").addClass('is_invalid');
-                  $("#invalid_plandifficulty").addClass('is_invalid');
-                  $("#invalid_plandifficulty").append(msg);
-
+                $.each(response.msg.plan_difficulty, function(key, msg){
+                  $("#plan_dificulty").addClass('is-invalid');
+                  $("#invalid_plandifficulty").addClass('is-invalid');
+                  $("#invalid_plandifficulty").text(msg);
                 });
-            alert('wrong');
             }
           });
         }
@@ -240,8 +238,8 @@
                         <div class="col-md-9">
                             <input type="text" class="form-control form-control-sm" name="days[${this_day}][exercises][${count_exercise}][exercise_duration]"  placeholder="" value="" required>
                         </div>
-                        <div class="invalid-feedback">
-                            Difficulty is required.
+                        <div class="invalid-feedback" id="invalid_exerciseduration">
+
                         </div>
                     </div>
                     <hr class="mb-4">`;
@@ -300,6 +298,9 @@
                                         <option value="">Choose...</option>
                                         `+exercise_dropdown +`
                                     </select>
+                                    <div class="invalid-feedback" id="invalid_exercise">
+
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
@@ -307,8 +308,8 @@
                                 <div class="col-md-9">
                                     <input type="text" class="form-control form-control-sm" name="days[${count_day}][exercises][1][exercise_duration]"  placeholder="" value="" required>
                                 </div>
-                                <div class="invalid-feedback">
-                                    Difficulty is required.
+                                <div class="invalid-feedback" id="invalid_exerciseduration">
+
                                 </div>
                             </div>
                             <hr class="mb-4">
@@ -321,7 +322,6 @@
             };
 
     function updatePlan(){
-
               var id = $(".planForm").data('id');
               obj=$('#form_editplan').serializeJSON();
               data=JSON.stringify(obj);
@@ -330,12 +330,25 @@
                 method:'PUT',
                 url:'/virtuagymapi/public/api/plans/'+id,
                 data: {data:data},
-              }).done(function(plan){
-                alert('Plan # '+plan.id+' updated');
-                $("#p_plan_difficulty"+plan.id).text(plan.plan_difficulty);
-                $("#p_plan_description_"+plan.id).html("<small>Description: "+plan.plan_description+"</small>");
-                $("#plan_cardtitle_"+plan.id).text(plan.plan_name);
-                $('#plan_collapse'+plan.id).addClass('show');
+              }).done(function(response){
+                if(response.success==true){
+                  alert('Plan # '+response.plan.plan_name+' updated');
+                  $("#p_plan_difficulty"+response.plan.id).text(response.plan.plan_difficulty);
+                  $("#p_plan_description_"+plan.id).html("<small>Description: "+response.plan.plan_description+"</small>");
+                  $("#plan_cardtitle_"+response.plan.id).text(response.plan.plan_name);
+                  $('#plan_collapse'+response.plan.id).addClass('show');
+                }else{
+                  $.each(response.msg.plan_name, function(key, plan_name){
+                    $("#plan_name").addClass('is-invalid');
+                    $("#invalid_planname").addClass('is-invalid');
+                    $("#invalid_planname").text(plan_name);
+                  });
+                  $.each(response.msg.plan_difficulty, function(key, msg){
+                    $("#plan_dificulty").addClass('is-invalid');
+                    $("#invalid_plandifficulty").addClass('is-invalid');
+                    $("#invalid_plandifficulty").text(msg);
+                  });
+                }
           });
     }
 
@@ -354,56 +367,74 @@ function storeUser(){
     method:'POST',
     url:'/virtuagymapi/public/api/users',
     data: {firstname: firstname, lastname: lastname, email: email, phone: phone, plans: plans},
-  }).done(function(user){
-    alert('User # '+user.id+' added');
-    let new_user='';
-    new_user = `
-    <li class="list-group-item mb-1">
-        <div class="row">
-            <div class="col-md-auto">
-                <img src="/virtuagymapi/public/user.png" style="height: 117px; width: 117px;">
-            </div>
-            <div class="col">
-                <div class="row">
-                    <div class="col">
-                        <div class="card-title">${user.firstname} ${user.lastname}</div>
-                    </div>
-                    <div class="col">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <button class="editUser btn btn-outline-dark btn-sm" data-id="${user.id}"><i class="far fa-edit"></i> Edit</button>
-                            </div>
-                            <div class="col">
-                                <button class="showUser btn btn-outline-info btn-sm" data-id="${user.id}"><i class="fas fa-eye"></i> View</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <button class="deleteUser btn btn-outline-danger btn-sm" data-id="${user.id}"><i class="far fa-trash-alt"></i> Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <a data-toggle="collapse" href="#user_collapse${user.id}" role="button" aria-expanded="false" aria-controls="user_collapse${user.id}">
-                            <small>Details</small>
-                        </a>
-                        <div class="collapse" id="user_collapse${user.id}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p class="card-text"><small>Email: ${user.email}</small></p>
-                                    <p class="card-text"><small>Phone: ${user.phone}</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-    `;
-    $('#users_ul').prepend(new_user);
+  }).done(function(response){
+    if(response.success==true){
+      alert('User # '+response.user.firstname+' '+response.user.firstname+' added');
+      let new_user='';
+      new_user = `
+      <li class="list-group-item mb-1">
+          <div class="row">
+              <div class="col-md-auto">
+                  <img src="/virtuagymapi/public/user.png" style="height: 117px; width: 117px;">
+              </div>
+              <div class="col">
+                  <div class="row">
+                      <div class="col">
+                          <div class="card-title">${response.user.firstname} ${response.user.lastname}</div>
+                      </div>
+                      <div class="col">
+                          <div class="row mb-3">
+                              <div class="col">
+                                  <button class="editUser btn btn-outline-dark btn-sm" data-id="${response.user.id}"><i class="far fa-edit"></i> Edit</button>
+                              </div>
+                              <div class="col">
+                                  <button class="showUser btn btn-outline-info btn-sm" data-id="${response.user.id}"><i class="fas fa-eye"></i> View</button>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col">
+                                  <button class="deleteUser btn btn-outline-danger btn-sm" data-id="${response.user.id}"><i class="far fa-trash-alt"></i> Delete</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col">
+                          <a data-toggle="collapse" href="#user_collapse${response.user.id}" role="button" aria-expanded="false" aria-controls="user_collapse${response.user.id}">
+                              <small>Details</small>
+                          </a>
+                          <div class="collapse" id="user_collapse${response.user.id}">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <p class="card-text"><small>Email: ${response.user.email}</small></p>
+                                      <p class="card-text"><small>Phone: ${response.user.phone}</small></p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </li>
+      `;
+      $('#users_ul').prepend(new_user);
+    }else{
+      $.each(response.msg.firstname, function(key, firstname){
+        $("#firstname").addClass('is-invalid');
+        $("#invalid_firstname").addClass('is-invalid');
+        $("#invalid_firstname").text(firstname);
+      });
+      $.each(response.msg.lastname, function(key, lastname){
+        $("#lastname").addClass('is-invalid');
+        $("#invalid_lastname").addClass('is-invalid');
+        $("#invalid_lastname").text(lastname);
+      });
+      $.each(response.msg.email, function(key, email){
+        $("#email").addClass('is-invalid');
+        $("#invalid_email").addClass('is-invalid');
+        $("#invalid_email").text(email);
+      });
+    }
   });
 }
 
@@ -418,13 +449,30 @@ function updateUser(){
     method:'PUT',
     url:'/virtuagymapi/public/api/users/'+id,
     data: {firstname: firstname, lastname: lastname, email: email, phone: phone, plans: plans},
-  }).done(function(user){
-    alert('User # '+user.id+' updated');
-    $("#p_useremail_"+user.id).html('<small>Email: '+user.email+'<small>');
-    $("#p_userphone_"+user.id).html('<small>Phone: '+user.phone+'<small>');
-    $("#user_cardtitle_"+user.id).text(user.firstname+" "+user.lastname);
-    $('#user_collapse'+user.id).addClass('show');
-
+  }).done(function(response){
+    if(response.success==true){
+      alert('User # '+response.user.firstname+' '+response.user.lastname+' updated');
+      $("#p_useremail_"+response.user.id).html('<small>Email: '+response.user.email+'<small>');
+      $("#p_userphone_"+response.user.id).html('<small>Phone: '+response.user.phone+'<small>');
+      $("#user_cardtitle_"+user.id).text(response.user.firstname+" "+response.user.lastname);
+      $('#user_collapse'+response.user.id).addClass('show');
+    }else{
+      $.each(response.msg.firstname, function(key, firstname){
+        $("#firstname").addClass('is-invalid');
+        $("#invalid_firstname").addClass('is-invalid');
+        $("#invalid_firstname").text(firstname);
+      });
+      $.each(response.msg.lastname, function(key, lastname){
+        $("#lastname").addClass('is-invalid');
+        $("#invalid_lastname").addClass('is-invalid');
+        $("#invalid_lastname").text(lastname);
+      });
+      $.each(response.msg.email, function(key, email){
+        $("#email").addClass('is-invalid');
+        $("#invalid_email").addClass('is-invalid');
+        $("#invalid_email").text(email);
+      });
+    }
   });
 }
 //--------------------------------end users-----------------------------------\\
