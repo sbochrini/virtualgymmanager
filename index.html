@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VirtuaGym</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        html, body {
+            background-color: #fff;
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+        }
+
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .position-ref {
+            position: relative;
+        }
+
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 84px;
+        }
+    </style>
+  </head>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
+<!-- <script src="jquery.serialize-object.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js"></script>
+
+
+  <body style="background-image:url(https://static.virtuagym.com/v2952934/images/background1.png);">
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+  <a class="navbar-brand" href="#">Virtuagym</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="navbar-nav">
+      <!-- <li class="nav-item {{Request::is('plans') || Request::is('/') ? 'active' : ''}}"><a class="nav-link" href="{{ url('plans')}}">Workout Plans</a></li>
+      <li class="nav-item {{Request::is('users') ? 'active' : ''}}"><a class="nav-link" href="{{ url('users')}}">Users</a></li> -->
+    </div>
+  </div>
+</nav>
+<div class="flex-center position-ref full-height">
+   <div class="container">
+     <ul class="nav nav-tabs" id="planTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="plan-tab" data-toggle="tab" href="#plan" role="tab" aria-controls="plan" aria-selected="true">Workout Plans</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Users</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="plan" role="tabpanel" aria-labelledby="plan-tab">
+         <div class="row mt-3">
+           <div class="col-md-6 col-md-offset-2">
+               <div class="row ml-3">
+                      <div class="col">
+                          <h5 class="card-title">Workout Plans</h5>
+                      </div>
+                      <div class="col">
+                          <button id="btn_add_plan" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus"></i> Add new Workout Plan</button>
+                      </div>
+              </div>
+               <ul id="plans" class="list-group"></ul>
+            </div>
+            <div id="div_add_plan" class="col-md-6 col-md-offset-2">
+
+              <!-- planform -->
+
+          </div>
+          </div>
+      </div>
+     <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+       <div class="row mt-3">
+        <div class="col-md-6 col-md-offset-2">
+            <div class="row ml-3">
+                <div class="col">
+                    <h5 class="card-title">Users</h5>
+                </div>
+                <div class="col">
+                    <button id="btn_add_userform" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus"></i> Add new User</button>
+                </div>
+            </div>
+            <ul id="users_ul" class="list-group">
+                <!--userform -->
+            </ul>
+        </div>
+        <div id="div_add_user" class="col-md-6 col-md-offset-2">
+          <!--userform -->
+        </div>
+    </div>
+     </div>
+   </div>
+     <footer id="footer" class="text-center">
+            <hr>
+            <p>Copyright &copy; 2018 VirtuaGym</p>
+    </footer>
+   </div>
+</div>
+ <script type="text/javascript"src="myscripts.js"></script>
+  <script type="text/javascript"src="userscripts.js"></script>
+  <script>
+//-------------------------------------plans------------------------------\\
+            //storePlan
+        function storePlan(){
+          obj=$('#form_addplan').serializeJSON();
+          data=JSON.stringify(obj);
+          $.ajax({
+            method:'POST',
+            url:'/virtuagymapi/public/api/plans',
+            data: {data: data},
+          }).done(function(response){
+            if(response.success==true){
+              alert('Workout Plan # '+response.plan.id+' added');
+              var new_user='';
+              new_user= `<li class="list-group-item mb-1">
+                              <div class="row">
+                                  <div class="col-md-auto">
+                                      <img src="/virtuagymapi/public/gym.png" style="height: 117px; width: 117px;">
+                                  </div>
+                                  <div class="col">
+                                      <div class="row">
+                                          <div class="col">
+                                              <div class="card-title" id="plan_cardtitle_${response.plan.id}">${response.plan.plan_name}</div>
+                                          </div>
+                                          <div class="col">
+                                              <div class="row mb-3">
+                                                  <div class="col">
+                                                      <button class="editPlan btn btn-outline-dark btn-sm" data-id="${response.plan.id}"><i class="far fa-edit"></i>Edit</button>
+                                                  </div>
+                                                  <div class="col">
+                                                      <button class="showPlan btn btn-outline-info btn-sm" data-id="${response.plan.id}"><i class="fas fa-eye"></i>View</button>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col">
+                                                      <button class="deleteLink btn btn-outline-danger btn-sm" data-id="${response.plan.id}"><i class="far fa-trash-alt"></i> Delete</button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col">
+                                              <a data-toggle="collapse" href="#plan_collapse${response.plan.id}" role="button" aria-expanded="false" aria-controls="plan_collapse${plan.id}">
+                                                  <small>Info</small>
+                                              </a>
+                                              <div class="collapse" id="plan_collapse${response.plan.id}">
+                                                  <div class="card">
+                                                      <div class="card-body">
+                                                          <p class="card-text" id="p_plan_difficulty_${response.plan.id}"><small>Difficulty: ${response.plan.plan_difficulty}</small></p>
+                                                          <p class="card-text" id="p_plan_description_${response.plan.id}"><small>Description: ${response.plan.plan_description}</small></p>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </li>`;
+              $('#plans').prepend(new_user);
+            }else{
+                $.each(response.plan_name, function(key, msg){
+                  $("#plan_name").addClass('is_invalid');
+                  $("#invalid_planname").addClass('is_invalid');
+                  $("#invalid_planname").append(msg);
+                });
+                $.each(response.plan_name, function(key, msg){
+                  $("#plan_dificulty").addClass('is_invalid');
+                  $("#invalid_plandifficulty").addClass('is_invalid');
+                  $("#invalid_plandifficulty").append(msg);
+
+                });
+            alert('wrong');
+            }
+          });
+        }
+
+            //  var count_exercise=1;
+        function addExercise(id){
+                $("#btn_addexercises i").toggeClass('fa-chevron-down fa-chevron-up');
+                var this_day;
+                //  count_exercise++;
+                  var split_id=id.split("_");
+                  this_day=split_id[3];
+
+                  var elements= $('.exercise_container_'+this_day);
+                  var length = elements.length;
+                  count_exercise =length+1;
+                  var ele;
+                  elements.each(function(index, element) {
+                      if (index === (length - 1)) {
+                          ele=$(this);
+                          console.log('Last field, submit form here');
+                      }
+                  });
+                  $.ajax({
+                      url:'/virtuagymapi/public/api/addexerisedropdown',
+                      success: function (response) {
+                        var exercise_dropdown="";
+                        $.each(response.exercises, function(key, exercise){
+                                exercise_dropdown += `<option value="${exercise.id}">${exercise.exercise_name}</option>`;
+                         });
+                        var html=`<div class="exercise_container_${this_day}">
+                    <input type="text" hidden name="days[${this_day}][exercises][${count_exercise}][exercise_order]" value="${count_exercise}">
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label form-control-sm" for="days[${this_day}][exercises][${count_exercise}][exercise_id]">Exercise</label>
+                        <div class="col-md-9">
+                            <select name="days[${this_day}][exercises][${count_exercise}][exercise_id]" class="form-control form-control-sm">
+                                <option value="">Choose...</option>
+                                `+ exercise_dropdown+`
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label form-control-sm" for="days[${this_day}][exercises][${count_exercise}][exercise_duration]">Duration</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-sm" name="days[${this_day}][exercises][${count_exercise}][exercise_duration]"  placeholder="" value="" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Difficulty is required.
+                        </div>
+                    </div>
+                    <hr class="mb-4">`;
+                          ele.append(html);
+                      },
+                      error: function (request, error) {
+                          // alert("Request: " + JSON.stringify(request));
+                      }
+                  });
+
+              }
+
+            function addPlanday(){
+                var count_day;
+                var elements= $('#ul_addplanday li');
+                var length = elements.length;
+                count_day =length+1;
+
+                $.ajax({
+                    url:'/virtuagymapi/public/api/addexerisedropdown'
+                }).done(function(response){
+                    let exercise_dropdown="";
+                    let dayhtml="";
+                    $.each(response.exercises, function(key, exercise){
+                        exercise_dropdown += `<option value="${exercise.id}">${exercise.exercise_name}</option>`;
+                    });
+                    dayhtml=`<li id="li_${count_day}" class="list-group-item">
+                <div class="form-group row">
+                    <input type="text" hidden name="days[${count_day}][day_order]" value="${count_day}">
+                    <label class="col-md-2 col-form-label">Day ${count_day }</label>
+                    <div class="col-md-6">
+                        <input id="day_${count_day}" name="days[${count_day}][day_name]" type="text" class="form-control" placeholder=" Name" >
+                    </div>
+                    <div class="col-md-1 pl-1">
+                        <button type="button" class="btn btn-light" onclick="deleteDay(${count_day})"><i class="far fa-trash-alt"></i></button>
+                    </div>
+                    <div class="col-md-3">
+                        <a id="btn_addexercises"  data-toggle="collapse" href="#planday_collapse_${count_day}" role="button" aria-expanded="false" aria-controls="planday_collapse_${count_day}">
+                            <i class="fa fa-chevron-down fa-sm"></i><small> Exercises</small>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <div class="collapse" id="planday_collapse_${count_day}">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col mb-3">
+                            <button id="btn_addexercise_day_${count_day}"  onclick="addExercise(this.id)" class="btn_addecercise btn btn-link btn-sm" type="button"><i class="fa fa-plus fa-sm"></i><small> Add exercise</small></button>
+                        </div>
+                        <div class="exercise_container_${count_day}">
+                            <input type="text" hidden name="days[${count_day}][exercises][1][exercise_order]" value="1">
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label form-control-sm" for="days[exercises][1][exercise_id]">Exercise</label>
+                                <div class="col-md-9">
+                                    <select name="days[${count_day}][exercises][1][exercise_id]" class="form-control form-control-sm">
+                                        <option value="">Choose...</option>
+                                        `+exercise_dropdown +`
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label class="col-md-3 col-form-label form-control-sm" for="days[${count_day}][exercises][1][exercise_duration]">Duration</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control form-control-sm" name="days[${count_day}][exercises][1][exercise_duration]"  placeholder="" value="" required>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Difficulty is required.
+                                </div>
+                            </div>
+                            <hr class="mb-4">
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+                    $("#ul_addplanday").append(dayhtml);
+                });
+            };
+
+    function updatePlan(){
+
+              var id = $(".planForm").data('id');
+              obj=$('#form_editplan').serializeJSON();
+              data=JSON.stringify(obj);
+
+              $.ajax({
+                method:'PUT',
+                url:'/virtuagymapi/public/api/plans/'+id,
+                data: {data:data},
+              }).done(function(plan){
+                alert('Plan # '+plan.id+' updated');
+                $("#p_plan_difficulty"+plan.id).text(plan.plan_difficulty);
+                $("#p_plan_description_"+plan.id).html("<small>Description: "+plan.plan_description+"</small>");
+                $("#plan_cardtitle_"+plan.id).text(plan.plan_name);
+                $('#plan_collapse'+plan.id).addClass('show');
+          });
+    }
+
+    function deleteDay(id){
+        alert(id);
+    }
+//--------------------------------end palns-----------------------------------\\
+//--------------------------------users---------------------------------------\\
+function storeUser(){
+  let firstname = $('#firstname').val();
+  let lastname = $('#lastname').val();
+  let email = $('#email').val();
+  let phone = $('#phone').val();
+  let plans = $('#userplans_select').val();
+  $.ajax({
+    method:'POST',
+    url:'/virtuagymapi/public/api/users',
+    data: {firstname: firstname, lastname: lastname, email: email, phone: phone, plans: plans},
+  }).done(function(user){
+    alert('User # '+user.id+' added');
+    let new_user='';
+    new_user = `
+    <li class="list-group-item mb-1">
+        <div class="row">
+            <div class="col-md-auto">
+                <img src="/virtuagymapi/public/user.png" style="height: 117px; width: 117px;">
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-title">${user.firstname} ${user.lastname}</div>
+                    </div>
+                    <div class="col">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <button class="editUser btn btn-outline-dark btn-sm" data-id="${user.id}"><i class="far fa-edit"></i> Edit</button>
+                            </div>
+                            <div class="col">
+                                <button class="showUser btn btn-outline-info btn-sm" data-id="${user.id}"><i class="fas fa-eye"></i> View</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button class="deleteUser btn btn-outline-danger btn-sm" data-id="${user.id}"><i class="far fa-trash-alt"></i> Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a data-toggle="collapse" href="#user_collapse${user.id}" role="button" aria-expanded="false" aria-controls="user_collapse${user.id}">
+                            <small>Details</small>
+                        </a>
+                        <div class="collapse" id="user_collapse${user.id}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text"><small>Email: ${user.email}</small></p>
+                                    <p class="card-text"><small>Phone: ${user.phone}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    `;
+    $('#users_ul').prepend(new_user);
+  });
+}
+
+function updateUser(){
+  let id = $(".userForm").data('id');
+  let firstname = $('#firstname').val();
+  let lastname = $('#lastname').val();
+  let email = $('#email').val();
+  let phone = $('#phone').val();
+  let plans = $('#userplans_select').val();
+  $.ajax({
+    method:'PUT',
+    url:'/virtuagymapi/public/api/users/'+id,
+    data: {firstname: firstname, lastname: lastname, email: email, phone: phone, plans: plans},
+  }).done(function(user){
+    alert('User # '+user.id+' updated');
+    $("#p_useremail_"+user.id).html('<small>Email: '+user.email+'<small>');
+    $("#p_userphone_"+user.id).html('<small>Phone: '+user.phone+'<small>');
+    $("#user_cardtitle_"+user.id).text(user.firstname+" "+user.lastname);
+    $('#user_collapse'+user.id).addClass('show');
+
+  });
+}
+//--------------------------------end users-----------------------------------\\
+  </script>
+  </body>
+</html>
