@@ -350,19 +350,15 @@
     }
 
     function deleteDay(id){
-      // var this_day;
-      //   var split_id=id.split("_");
-      //   this_day=split_id[3];
-
-        var elements= $('#ul_addplanday li');
+       var elements= $('#ul_addplanday li');
        var length = elements.length;
-        alert(elements);
         // count_exercise =length+1;
         var ele;
         if(length>0){
           elements.each(function(index, element) {
               if (index === (length - 1)) {
                   ele=$(this);
+                  ele.remove();
                   console.log('Last field, submit form here');
               }
           });
