@@ -343,16 +343,19 @@
           });
     }
 
-    function deleteDay(id){
+    function deleteDay(){
        var elements= $('#ul_addplanday li');
        var length = elements.length;
-        // count_exercise =length+1;
         var ele;
         if(length>0){
           elements.each(function(index, element) {
               if (index === (length - 1)) {
                   ele=$(this);
+                  id=ele.attr('id');
+                  var split_id=id.split("_");
+                  day=split_id[1];
                   ele.remove();
+                  $('#planday_collapse_'+day).remove();
                   console.log('Last field, submit form here');
               }
           });

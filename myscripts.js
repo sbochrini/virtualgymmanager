@@ -271,18 +271,25 @@
 
           if (response.plan.days.length !== 0) {
               $.each(response.plan.days,function(key,day){
+
                   if ( day.exercise_instances.length !== 0) {
+                    exercise_dropdown = '';
+                    exercise_html='';
                       $.each(day.exercise_instances, function(key, exercise_instance){
+
                           exercise_html+=`<input type="text" hidden name="days[${day.order}][exercises][${exercise_instance.order}][exercise_order]" value="${exercise_instance.order}">
                                 <div class="form-group row mb-3">
                                     <label class="col-md-3 col-form-label form-control-sm" for="days[${day.order}][exercises][${exercise_instance.order}][exercise_id]">Exercise</label>
                                     <div class="col-md-9">
                                         <select name="days[${day.order}][exercises][${exercise_instance.order}][exercise_id]" class="form-control form-control-sm">
-                                            <option value="">Choose...</option>`;
+                                            <option value="">Chooooooose...</option>`;
                                           $.each(response.exercises, function(key, exercise){
+                                              //if(day.exercise_ids.indexOf(exercise.id)!==-1){
                                               if(exercise.id==exercise_instance.exercise_id){
+                                                console.log(exercise.id);
                                                   exercise_dropdown += `<option value="${exercise.id}" selected>${exercise.exercise_name}</option>`;
                                               }else{
+                                                console.log('no'+exercise.id);
                                                   exercise_dropdown += `<option value="${exercise.id}">${exercise.exercise_name}</option>`;
                                               }
                                               duration_html=`</select>
@@ -291,25 +298,26 @@
                                                       <div class="form-group row mb-3">
                                                           <label class="col-md-3 col-form-label form-control-sm" for="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]">Duration</label>
                                                           <div class="col-md-9">
-                                                              <input id="plan_difficulty" type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
+                                                              <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
                                                           </div>
-                                                          <div class="invalid-feedback" id="invalid_plan_difficulty">
+                                                          <div class="invalid-feedback" id="invalid_exercise_duration">
 
                                                           </div>
                                                       </div>
                                                       <hr class="mb-4">`;
                                           });
-                                          exercise_html += exercise_dropdown+duration_html;
-                                        //  exercise_html += ``;
+
+                                      exercise_html += exercise_dropdown+duration_html;
 
                       });
-                  }else{
+
+                  }else{ //if no exercises
                       exercise_html=`<input type="text" hidden name="days[1][exercises][1][exercise_order]" value="1">
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[][exercises][1][exercise_id]">Exercise</label>
                                                                   <div class="col-md-9">
                                                                       <select  name="days[1][exercises][1][exercise_id]" class="exercises_select form-control form-control-sm">
-                                                                        <option value="">Choose...</option>
+                                                                        <option value="">Chooseeee...</option>
                                                                           `+exercise_dropdown_forempty+`
 
                                                                       </select>
@@ -326,9 +334,6 @@
                                                               </div>
                                                               <hr class="mb-4">`;
                   }
-
-                  //});
-
                   days_li +=`<li id="li_${day.order}" class="list-group-item">
                         <div class="form-group row">
                         <input type="text" hidden name="days[${day.order}][day_order]" value="${day.order}">
@@ -353,34 +358,10 @@
                                 <button id="btn_addexercise_day_${day.order}"  onclick="addExercise(this.id)" class="btn_addexercise btn btn-link btn-sm" type="button"><i class="fa fa-plus fa-sm"></i><small> Add exercise</small></button>
                             </div>
                             <div class="exercise_container_${day.order}">
-                                <input type="text" hidden name="days[1][exercises][1][exercise_order]" value="1">
-                                                              <div class="form-group row mb-3">
-                                                                  <label class="col-md-3 col-form-label form-control-sm" for="days[][exercises][1][exercise_id]">Exercise</label>
-                                                                  <div class="col-md-9">
-                                                                      <select  name="days[1][exercises][1][exercise_id]" class="exercises_select form-control form-control-sm">
-                                                                        <option value="">Choose...</option>
-                                                                          `+exercise_dropdown_forempty +`
-                                                                          </select>
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <div class="form-group row mb-3">
-                                                                                      <label class="col-md-3 col-form-label form-control-sm" for="days[1][exercises][1][exercise_duration]">Duration</label>
-                                                                                      <div class="col-md-9">
-                                                                                          <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]" value="" >
-                                                                                      </div>
-                                                                                      <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
 
-                                                                                      </div>
-                                                                                  </div>
-                                                                                  <hr class="mb-4">
-
-
-                            </div>
-                        </div>
-                        </div>
-                        </div>`;
+                                                                          `+exercise_html+"</div></div></div>";
               });
-          }else{
+          }else{  //if no days
               days_li=`<li id="li_1" class="list-group-item">
                                                       <div class="form-group row">
                                                       <input type="text" hidden name="days[1][day_order]" value="1">
@@ -434,7 +415,7 @@
 
         //console.log(response.difficulty_levels);
           output += `
-          <div class="card col-md mt-4 order-md-1">
+          <div class="card col-md mt-4 order-md-1 sticky-top">
                     <h4 class="mb-3 mt-3">Workout: ${response.plan.plan_name}</h4>
                     <form  id="form_editplan" method="put" class="planForm" data-id="${response.plan.id}">
                     <div id="divforedit">
@@ -528,7 +509,7 @@
                           </div>
                           <div class="mb-3"><div id="planaccordion">`;
                           if(response.plan.days.length>0){
-                            card_day="";
+                            card_day='';
                             $.each(response.plan.days,function(key,day){
                               card_day+=`<div class="card">
                                 <div class="card-header" id="planday_${day.id}">
@@ -542,8 +523,9 @@
                                 <div class="card-body">
                                   <h5 class="card-title">Exercises</h5>`;
                                   if(day.exercise_instances.length>0){
-                                    exercise='';
+                                      exercises='';
                                     $.each(day.exercise_instances,function(key,exercise){
+
                                       exercises+=`<p class="card-text">Exercise ${exercise.order}: ${exercise.exercise_name.exercise_name}</p>
                                                   <p class="card-text">Duration: ${exercise.exercise_duration}</p>
                                                   <hr class="mb-4">`;

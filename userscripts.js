@@ -130,24 +130,6 @@
       });
     });
 
-    //Submit event
-    // $('#form_adduser').on('submit', function(e){
-    //     e.preventDefault();
-    //
-    //     let firstname = $('#firstname').val();
-    //     let lastname = $('#lastname').val();
-    //     let email = $('#email').val();
-    //     let phone = $('#phone').val();
-    //     let plans = $('#userplans_select').val();
-    //
-    //     addUser(firstname, lastname, email, phone, plans);
-    //   });
-    //
-    //   // Insert items using api
-    //   function addUser(firstname, lastname, email, phone, plans){
-    //
-    //   }
-
 
     // Delete event
     $('body').on('click', '.deleteUser', function(e){
@@ -187,13 +169,11 @@
         var plans_dropdown='';
         $.each(response.plans, function(key, plan){
           if(response.user_plans.length>0){
-            //$.each(response.user_plans, function(i,userplan){
               if(response.user_plans.indexOf(plan.id)!==-1 ){
                 plans_dropdown += `<option value="${plan.id}" selected>${plan.plan_name}</option>`;
               }else{
                   plans_dropdown += `<option value="${plan.id}">${plan.plan_name}</option>`;
               }
-            //});
           }else{
             plans_dropdown += `<option value="${plan.id}">${plan.plan_name}</option>`;
           }
