@@ -145,8 +145,8 @@
                                                   <input type="text" hidden name="days[1][day_order]" value="1">
                                                   <label class="col-md-2 col-form-label">Day 1</label>
                                                   <div class="col-md-6">
-                                                      <input id="days.1.day_name" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
-                                                      <div class="invalid-feedback" id="invalid_days.1.day_name">
+                                                      <input id="days_1_day_name" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
+                                                      <div class="invalid-feedback" id="invalid_days_1_day_name">
 
                                                       </div>
                                                   </div>
@@ -179,9 +179,10 @@
                                                           <div class="form-group row mb-3">
                                                               <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                               <div class="col-md-9">
-                                                                  <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                  <input id="days_1_exercises_1_exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                  <div class="invalid-feedback" id="invalid_days_1_exercises_1_exercise_duration">
                                                               </div>
-                                                              <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
+
 
                                                               </div>
                                                           </div>
@@ -284,9 +285,7 @@
                                         <select name="days[${day.order}][exercises][${exercise_instance.order}][exercise_id]" class="form-control form-control-sm">
                                             <option value="">Chooooooose...</option>`;
                                           $.each(response.exercises, function(key, exercise){
-                                              //if(day.exercise_ids.indexOf(exercise.id)!==-1){
                                               if(exercise.id==exercise_instance.exercise_id){
-                                                console.log(exercise.id);
                                                   exercise_dropdown += `<option value="${exercise.id}" selected>${exercise.exercise_name}</option>`;
                                               }else{
                                                 console.log('no'+exercise.id);
@@ -298,9 +297,9 @@
                                                       <div class="form-group row mb-3">
                                                           <label class="col-md-3 col-form-label form-control-sm" for="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]">Duration</label>
                                                           <div class="col-md-9">
-                                                              <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
+                                                              <input id="days_${day.order}_exercises_${exercise_instance.order}_exercise_duration" type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
+                                                              <div class="invalid-feedback" id="invalid_days_${day.order}_exercises_${exercise_instance.order}_exercise_duration">
                                                           </div>
-                                                          <div class="invalid-feedback" id="invalid_exercise_duration">
 
                                                           </div>
                                                       </div>
@@ -326,10 +325,9 @@
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                                   <div class="col-md-9">
-                                                                      <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <input id="days_1_exercises_1_exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <div class="invalid-feedback" id="invalid_days_1_exercises_1_exercise_duration">
                                                                   </div>
-                                                                  <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
-
                                                                   </div>
                                                               </div>
                                                               <hr class="mb-4">`;
@@ -339,8 +337,8 @@
                         <input type="text" hidden name="days[${day.order}][day_order]" value="${day.order}">
                         <label class="col-md-2 col-form-label">Day ${day.order} </label>
                         <div class="col-md-6">
-                            <input id="days.${day.order}.day_name" name="days[${day.order}][day_name]" type="text" class="form-control" value="${day.day_name}">
-                            <div class="invalid-feedback" id="invalid_days.${day.order}.day_name">
+                            <input id="days_${day.order}_day_name" name="days[${day.order}][day_name]" type="text" class="form-control" value="${day.day_name}">
+                            <div class="invalid-feedback" id="invalid_days_${day.order}_day_name">
 
                             </div>
                         </div>
@@ -367,8 +365,8 @@
                                                       <input type="text" hidden name="days[1][day_order]" value="1">
                                                       <label class="col-md-2 col-form-label">Day 1</label>
                                                       <div class="col-md-6">
-                                                          <input id="days.1.day_name" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
-                                                          <div class="invalid-feedback" id="invalid_days.1.day_name">
+                                                          <input id="days_1_day_name" name="days[1][day_name]" type="text" class="day_name form-control"  data-dayorder="1">
+                                                          <div class="invalid-feedback" id="invalid_days_1_day_name">
 
                                                           </div>
                                                       </div>
@@ -400,10 +398,9 @@
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                                   <div class="col-md-9">
-                                                                      <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <input id="days_1_exercises_1_exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <div class="invalid-feedback" id="invalid_days_1_exercises_1_exercise_duration">
                                                                   </div>
-                                                                  <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
-
                                                                   </div>
                                                               </div>
                                                               <hr class="mb-4">

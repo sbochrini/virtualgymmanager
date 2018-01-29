@@ -183,11 +183,19 @@
                           </li>`;
               $('#plans').prepend(new_plan);
             }else{
-              //console.log(response.msg);
               $.each(response.msg, function(key, field){
-                $('#'+key).addClass('is-invalid');
-                $('#invalid_'+key).addClass('is-invalid');
-                $('#invalid_'+key).text(field);
+                if(key=="plan_name" || key=="plan_difficulty"){
+                  $('#'+key).addClass('is-invalid');
+                  $('#invalid_'+key).addClass('is-invalid');
+                  $('#invalid_'+key).text(field);
+                }else{
+                  var res = key.split(".");
+                  id=res.join('_');
+                  //alert(id);
+                  $('#'+id).addClass('is-invalid');
+                  $('#invalid_'+id).addClass('is-invalid');
+                  $('#invalid_'+id).text(field);
+                }
               });
             }
           });
@@ -232,9 +240,10 @@
                     <div class="form-group row mb-3">
                         <label class="col-md-3 col-form-label form-control-sm" for="days[${this_day}][exercises][${count_exercise}][exercise_duration]">Duration</label>
                         <div class="col-md-9">
-                            <input id="exercise_duration_${this_day}_${count_exercise}" type="text" class="form-control form-control-sm" name="days[${this_day}][exercises][${count_exercise}][exercise_duration]"  placeholder="" value="" required>
+                            <input id="days_${count_day}_exercises_${count_exercise}_exercise_duration" type="text" class="form-control form-control-sm" name="days[${this_day}][exercises][${count_exercise}][exercise_duration]"  placeholder="" value="" required>
+                            <div class="invalid-feedback" id="invalid_days_${count_day}_exercises_${count_exercise}_exercise_duration">
                         </div>
-                        <div class="invalid-feedback" id="invalid_exerciseduration_${this_day}_${count_exercise}">
+
 
                         </div>
                     </div>
@@ -267,8 +276,8 @@
                     <input type="text" hidden name="days[${count_day}][day_order]" value="${count_day}">
                     <label class="col-md-2 col-form-label">Day ${count_day }</label>
                     <div class="col-md-6">
-                        <input id="days.${count_day}.day_name" name="days[${count_day}][day_name]" type="text" class="form-control" placeholder=" Name" >
-                        <div class="invalid-feedback" id="invalid_days.${count_day}.day_name">
+                        <input id="days_${count_day}_day_name" name="days[${count_day}][day_name]" type="text" class="form-control"  >
+                        <div class="invalid-feedback" id="invalid_days_${count_day}_day_name">
 
                         </div>
                     </div>
@@ -302,9 +311,9 @@
                             <div class="form-group row mb-3">
                                 <label class="col-md-3 col-form-label form-control-sm" for="days[${count_day}][exercises][1][exercise_duration]">Duration</label>
                                 <div class="col-md-9">
-                                    <input id="exercise_duration_${count_day}_1" type="text" class="form-control form-control-sm" name="days[${count_day}][exercises][1][exercise_duration]"  placeholder="" value="" required>
+                                    <input id="days_${count_day}_exercises_1_exercise_duration" type="text" class="form-control form-control-sm" name="days[${count_day}][exercises][1][exercise_duration]"  placeholder="" value="" required>
+                                    <div class="invalid-feedback" id="invalid_days_${count_day}_exercises_1_exercise_duration">
                                 </div>
-                                <div class="invalid-feedback" id="invalid_exerciseduration_${count_day}_1">
 
                                 </div>
                             </div>
@@ -335,9 +344,18 @@
                   $('#plan_collapse'+response.plan.id).addClass('show');
                 }else{
                   $.each(response.msg, function(key, field){
-                    $('#'+key).addClass('is-invalid');
-                    $('#invalid_'+key).addClass('is-invalid');
-                    $('#invalid_'+key).text(field);
+                    if(key=="plan_name" || key=="plan_difficulty"){
+                      $('#'+key).addClass('is-invalid');
+                      $('#invalid_'+key).addClass('is-invalid');
+                      $('#invalid_'+key).text(field);
+                    }else{
+                      var res = key.split(".");
+                      id=res.join('_');
+                      //alert(id);
+                      $('#'+id).addClass('is-invalid');
+                      $('#invalid_'+id).addClass('is-invalid');
+                      $('#invalid_'+id).text(field);
+                    }
                   });
                 }
           });
