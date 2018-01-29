@@ -124,8 +124,19 @@
                                 <div class="col-md mb-3">
                                     <div class="card" style="min-height: 18rem;">
                                         <div class="card-header">
-                                            Workout plan days
-                                            <button id="btn_addplanday" class="btn btn-link btn-sm float-right" type="button" onclick="addPlanday()"><i class="fa fa-plus fa-sm"></i><small> Add</small></button>
+                                        <div class=row>
+                                            <div class="col-md-10">
+                                              Workout plan days
+                                            </div>
+                                            <div class="col-md-2">
+                                              <div class=row>
+                                                <button id="btn_addplanday" onclick="addPlanday()" class="btn btn-link btn-sm float-right" type="button"><i class="fa fa-plus fa-sm"></i><small> Add</small></button>
+                                              </div>
+                                              <div class=row>
+                                                <button type="button" class="btn btn-link btn-sm float-right" onclick="deleteDay()"><i class="far fa-trash-alt fa-sm"></i><small> Delete</small></button>
+                                              </div>
+                                            </div>
+                                          </div>
                                         </div>
                                         <div class="card-body">
                                             <ul id="ul_addplanday" class="list-group list-group-flush">
@@ -322,9 +333,6 @@
                         <div class="col-md-6">
                             <input id="day_1" name="days[${day.order}][day_name]" type="text" class="form-control" value="${day.day_name}">
                         </div>
-                        <div class="col-md-1 pl-1">
-                            <button type="button" class="btn btn-light" onclick="deleteDay(${day.order})"><i class="far fa-trash-alt"></i></button>
-                        </div>
                         <div class="col-md-3">
                             <a id="btn_addexercises" data-toggle="collapse" href="#planday_collapse_${day.order}" role="button" aria-expanded="false" aria-controls="planday_collapse_${day.order}">
                                 <i class="fa fa-chevron-down fa-sm"></i><small> Exercises</small>
@@ -373,9 +381,6 @@
                                                       <label class="col-md-2 col-form-label">Day 1</label>
                                                       <div class="col-md-6">
                                                           <input id="day_1" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
-                                                      </div>
-                                                      <div class="col-md-1 pl-1">
-                                                          <button type="button" class="btn btn-light" onclick="deleteDay(1)"><i class="far fa-trash-alt"></i></button>
                                                       </div>
                                                       <div class="col-md-3">
                                                           <a id="btn_addexercises" data-toggle="collapse" href="#planday_collapse_1" role="button" aria-expanded="false" aria-controls="planday_collapse_1">
@@ -451,8 +456,19 @@
                             <div class="col-md mb-3">
                                 <div class="card" style="min-height: 18rem;">
                                     <div class="card-header">
-                                        Workout plan days
-                                        <button id="btn_addplanday" onclick="addPlanday()" class="btn btn-link btn-sm float-right" type="button"><i class="fa fa-plus fa-sm"></i><small> Add</small></button>
+                                      <div class=row>
+                                          <div class="col-md-10">
+                                            Workout plan days
+                                          </div>
+                                          <div class="col-md-2">
+                                            <div class=row>
+                                              <button id="btn_addplanday" onclick="addPlanday()" class="btn btn-link btn-sm float-right" type="button"><i class="fa fa-plus fa-sm"></i><small> Add</small></button>
+                                            </div>
+                                            <div class=row>
+                                              <button type="button" class="btn btn-link btn-sm float-right" onclick="deleteDay()"><i class="far fa-trash-alt fa-sm"></i><small> Delete</small></button>
+                                            </div>
+                                          </div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                           <ul id="ul_addplanday" class="list-group list-group-flush">

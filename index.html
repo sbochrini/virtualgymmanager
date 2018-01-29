@@ -199,7 +199,7 @@
 
             //  var count_exercise=1;
         function addExercise(id){
-                $("#btn_addexercises i").toggeClass('fa-chevron-down fa-chevron-up');
+                $("#btn_addexercises i").toggleClass('fa-chevron-down fa-chevron-up');
                 var this_day;
                 //  count_exercise++;
                   var split_id=id.split("_");
@@ -272,9 +272,6 @@
                     <label class="col-md-2 col-form-label">Day ${count_day }</label>
                     <div class="col-md-6">
                         <input id="day_${count_day}" name="days[${count_day}][day_name]" type="text" class="form-control" placeholder=" Name" >
-                    </div>
-                    <div class="col-md-1 pl-1">
-                        <button type="button" class="btn btn-light" onclick="deleteDay(${count_day})"><i class="far fa-trash-alt"></i></button>
                     </div>
                     <div class="col-md-3">
                         <a id="btn_addexercises"  data-toggle="collapse" href="#planday_collapse_${count_day}" role="button" aria-expanded="false" aria-controls="planday_collapse_${count_day}">
@@ -353,7 +350,23 @@
     }
 
     function deleteDay(id){
-        alert(id);
+      // var this_day;
+      //   var split_id=id.split("_");
+      //   this_day=split_id[3];
+
+        var elements= $('#ul_addplanday li');
+       var length = elements.length;
+        alert(elements);
+        // count_exercise =length+1;
+        var ele;
+        if(length>0){
+          elements.each(function(index, element) {
+              if (index === (length - 1)) {
+                  ele=$(this);
+                  console.log('Last field, submit form here');
+              }
+          });
+        }
     }
 //--------------------------------end palns-----------------------------------\\
 //--------------------------------users---------------------------------------\\
