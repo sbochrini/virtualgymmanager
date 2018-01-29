@@ -183,16 +183,12 @@
                           </li>`;
               $('#plans').prepend(new_plan);
             }else{
-                $.each(response.msg.plan_name, function(key, plan_name){
-                  $("#plan_name").addClass('is-invalid');
-                  $("#invalid_planname").addClass('is-invalid');
-                  $("#invalid_planname").text(plan_name);
-                });
-                $.each(response.msg.plan_difficulty, function(key, msg){
-                  $("#plan_dificulty").addClass('is-invalid');
-                  $("#invalid_plandifficulty").addClass('is-invalid');
-                  $("#invalid_plandifficulty").text(msg);
-                });
+              //console.log(response.msg);
+              $.each(response.msg, function(key, field){
+                $('#'+key).addClass('is-invalid');
+                $('#invalid_'+key).addClass('is-invalid');
+                $('#invalid_'+key).text(field);
+              });
             }
           });
         }
@@ -236,9 +232,9 @@
                     <div class="form-group row mb-3">
                         <label class="col-md-3 col-form-label form-control-sm" for="days[${this_day}][exercises][${count_exercise}][exercise_duration]">Duration</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control form-control-sm" name="days[${this_day}][exercises][${count_exercise}][exercise_duration]"  placeholder="" value="" required>
+                            <input id="exercise_duration_${this_day}_${count_exercise}" type="text" class="form-control form-control-sm" name="days[${this_day}][exercises][${count_exercise}][exercise_duration]"  placeholder="" value="" required>
                         </div>
-                        <div class="invalid-feedback" id="invalid_exerciseduration">
+                        <div class="invalid-feedback" id="invalid_exerciseduration_${this_day}_${count_exercise}">
 
                         </div>
                     </div>
@@ -271,7 +267,10 @@
                     <input type="text" hidden name="days[${count_day}][day_order]" value="${count_day}">
                     <label class="col-md-2 col-form-label">Day ${count_day }</label>
                     <div class="col-md-6">
-                        <input id="day_${count_day}" name="days[${count_day}][day_name]" type="text" class="form-control" placeholder=" Name" >
+                        <input id="days.${count_day}.day_name" name="days[${count_day}][day_name]" type="text" class="form-control" placeholder=" Name" >
+                        <div class="invalid-feedback" id="invalid_days.${count_day}.day_name">
+
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <a id="btn_addexercises"  data-toggle="collapse" href="#planday_collapse_${count_day}" role="button" aria-expanded="false" aria-controls="planday_collapse_${count_day}">
@@ -303,9 +302,9 @@
                             <div class="form-group row mb-3">
                                 <label class="col-md-3 col-form-label form-control-sm" for="days[${count_day}][exercises][1][exercise_duration]">Duration</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control form-control-sm" name="days[${count_day}][exercises][1][exercise_duration]"  placeholder="" value="" required>
+                                    <input id="exercise_duration_${count_day}_1" type="text" class="form-control form-control-sm" name="days[${count_day}][exercises][1][exercise_duration]"  placeholder="" value="" required>
                                 </div>
-                                <div class="invalid-feedback" id="invalid_exerciseduration">
+                                <div class="invalid-feedback" id="invalid_exerciseduration_${count_day}_1">
 
                                 </div>
                             </div>
@@ -335,15 +334,10 @@
                   $("#plan_cardtitle_"+response.plan.id).text(response.plan.plan_name);
                   $('#plan_collapse'+response.plan.id).addClass('show');
                 }else{
-                  $.each(response.msg.plan_name, function(key, plan_name){
-                    $("#plan_name").addClass('is-invalid');
-                    $("#invalid_planname").addClass('is-invalid');
-                    $("#invalid_planname").text(plan_name);
-                  });
-                  $.each(response.msg.plan_difficulty, function(key, msg){
-                    $("#plan_dificulty").addClass('is-invalid');
-                    $("#invalid_plandifficulty").addClass('is-invalid');
-                    $("#invalid_plandifficulty").text(msg);
+                  $.each(response.msg, function(key, field){
+                    $('#'+key).addClass('is-invalid');
+                    $('#invalid_'+key).addClass('is-invalid');
+                    $('#invalid_'+key).text(field);
                   });
                 }
           });
@@ -378,7 +372,7 @@ function storeUser(){
     data: {firstname: firstname, lastname: lastname, email: email, phone: phone, plans: plans},
   }).done(function(response){
     if(response.success==true){
-      alert('User # '+response.user.firstname+' '+response.user.firstname+' added');
+      alert('User # '+response.user.firstname+' '+response.user.lastname+' added');
       let new_user='';
       new_user = `
       <li class="list-group-item mb-1">

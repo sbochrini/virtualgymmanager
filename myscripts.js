@@ -66,7 +66,7 @@
         });
         $('#plans').append(output);
         $( exercise_dropdown ).appendTo( ".exercises_select" );
-        $('#plan_dificulty').append(difficulty_dropdown);
+        $('#plan_difficulty').append(difficulty_dropdown);
         // $('#exercises_select').append(exercise_dropdown);
       });
     }
@@ -97,18 +97,18 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="plan_name">Workout Name</label>
                                     <input type="text" class="form-control" id="plan_name" name="plan_name" required>
-                                    <div id="invalid_planname" class="invalid-feedback">
+                                    <div id="invalid_plan_name" class="invalid-feedback">
 
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="plan_dificulty">Difficulty</label>
-                                    <select name="plan_difficulty" class="form-control" id="plan_dificulty" required>
+                                    <label for="plan_difficulty">Difficulty</label>
+                                    <select name="plan_difficulty" class="form-control" id="plan_difficulty" required>
                                         <option value="">Choose...</option>
                                         `+difficulty_dropdown+`
 
                                     </select>
-                                    <div id="invalid_plandifficulty" class="invalid-feedback">
+                                    <div id="invalid_plan_difficulty" class="invalid-feedback">
 
                                     </div>
                                 </div>
@@ -145,7 +145,10 @@
                                                   <input type="text" hidden name="days[1][day_order]" value="1">
                                                   <label class="col-md-2 col-form-label">Day 1</label>
                                                   <div class="col-md-6">
-                                                      <input id="day_1" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
+                                                      <input id="days.1.day_name" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
+                                                      <div class="invalid-feedback" id="invalid_days.1.day_name">
+
+                                                      </div>
                                                   </div>
 
                                                   <div class="col-md-3">
@@ -176,9 +179,9 @@
                                                           <div class="form-group row mb-3">
                                                               <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                               <div class="col-md-9">
-                                                                  <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                  <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
                                                               </div>
-                                                              <div class="invalid-feedback" id="invalid_exerciseduration">
+                                                              <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
 
                                                               </div>
                                                           </div>
@@ -223,8 +226,8 @@
         method:'POST',
         url:'/virtuagymapi/public/api/plans/'+id,
         data: {_method: 'DELETE'}
-      }).done(function(plan){
-        alert('Plan deleted');
+      }).done(function(response){
+        alert('Plan '+response.plan.plan_name+' deleted');
         location.reload();
       });
     }
@@ -290,7 +293,7 @@
                                                           <div class="col-md-9">
                                                               <input id="plan_difficulty" type="text" class="form-control form-control-sm" name="days[${day.order}][exercises][${exercise_instance.order}][exercise_duration]" value="${exercise_instance.exercise_duration}" >
                                                           </div>
-                                                          <div class="invalid-feedback" id="invalid_plandifficulty">
+                                                          <div class="invalid-feedback" id="invalid_plan_difficulty">
 
                                                           </div>
                                                       </div>
@@ -315,9 +318,9 @@
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                                   <div class="col-md-9">
-                                                                      <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
                                                                   </div>
-                                                                  <div class="invalid-feedback" id="invalid_exerciseduration">
+                                                                  <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
 
                                                                   </div>
                                                               </div>
@@ -331,7 +334,10 @@
                         <input type="text" hidden name="days[${day.order}][day_order]" value="${day.order}">
                         <label class="col-md-2 col-form-label">Day ${day.order} </label>
                         <div class="col-md-6">
-                            <input id="day_1" name="days[${day.order}][day_name]" type="text" class="form-control" value="${day.day_name}">
+                            <input id="days.${day.order}.day_name" name="days[${day.order}][day_name]" type="text" class="form-control" value="${day.day_name}">
+                            <div class="invalid-feedback" id="invalid_days.${day.order}.day_name">
+
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <a id="btn_addexercises" data-toggle="collapse" href="#planday_collapse_${day.order}" role="button" aria-expanded="false" aria-controls="planday_collapse_${day.order}">
@@ -360,9 +366,9 @@
                                                                                   <div class="form-group row mb-3">
                                                                                       <label class="col-md-3 col-form-label form-control-sm" for="days[1][exercises][1][exercise_duration]">Duration</label>
                                                                                       <div class="col-md-9">
-                                                                                          <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]" value="" >
+                                                                                          <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]" value="" >
                                                                                       </div>
-                                                                                      <div class="invalid-feedback" id="invalid_exerciseduration">
+                                                                                      <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
 
                                                                                       </div>
                                                                                   </div>
@@ -380,7 +386,10 @@
                                                       <input type="text" hidden name="days[1][day_order]" value="1">
                                                       <label class="col-md-2 col-form-label">Day 1</label>
                                                       <div class="col-md-6">
-                                                          <input id="day_1" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
+                                                          <input id="days.1.day_name" name="days[1][day_name]" type="text" class="day_name form-control" placeholder=" Name" data-dayorder="1">
+                                                          <div class="invalid-feedback" id="invalid_days.1.day_name">
+
+                                                          </div>
                                                       </div>
                                                       <div class="col-md-3">
                                                           <a id="btn_addexercises" data-toggle="collapse" href="#planday_collapse_1" role="button" aria-expanded="false" aria-controls="planday_collapse_1">
@@ -410,9 +419,9 @@
                                                               <div class="form-group row mb-3">
                                                                   <label class="col-md-3 col-form-label form-control-sm" for="days[1][[exercises][exercise_duration]">Duration</label>
                                                                   <div class="col-md-9">
-                                                                      <input id="exercise_duration" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
+                                                                      <input id="exercise_duration_1_1" type="text" class="form-control form-control-sm" name="days[1][exercises][1][exercise_duration]"  required>
                                                                   </div>
-                                                                  <div class="invalid-feedback" id="invalid_exerciseduration">
+                                                                  <div class="invalid-feedback" id="invalid_exerciseduration_1_1">
 
                                                                   </div>
                                                               </div>
@@ -433,13 +442,13 @@
                             <div class="col-md-6 mb-3">
                                 <label for="plan_name">Workout Name</label>
                                 <input type="text" class="form-control" id="plan_name" name="plan_name" value="${response.plan.plan_name}" required>
-                                <div class="invalid-feedback" id="invalid_planname">
+                                <div class="invalid-feedback" id="invalid_plan_name">
 
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="plan_dificulty">Difficulty</label>
-                                <select name="plan_difficulty" class="form-control" id="plan_dificulty" required>
+                                <label for="plan_difficulty">Difficulty</label>
+                                <select name="plan_difficulty" class="form-control" id="plan_difficulty" required>
                                 <option value="">Choose...</option>
                                     `+difficulty_dropdown+`
                                 </select>
